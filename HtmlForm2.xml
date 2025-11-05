@@ -1,0 +1,19 @@
+<students>
+	<student>
+		<id>23</id>
+		<name>John Carter</name>
+		<addmission_date>25/12/2015</addmission_date>
+	</student>
+	
+	<student>
+		<id>29</id>
+		<name>Bob Marshal</name>
+		<addmission_date>13/01/1999</addmission_date>
+	</student>
+	
+	<student>
+		<id>35</id>
+		<name>Clark Kent</name>
+		<addmission_date>17/06/2005</addmission_date>
+	</student>
+</students>
