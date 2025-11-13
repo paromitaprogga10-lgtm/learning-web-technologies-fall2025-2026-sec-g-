@@ -1,0 +1,37 @@
+t<html lang="en">
+<head>
+  <title>Email Validation</title>
+</head>
+<body>
+  <h2>Email Validation</h2>
+  <form onsubmit="return checkEmail()">
+    Email: <input type="text" id="email" placeholder="sample@example.com"><br><br>
+    <input type="submit" value="Submit">
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    function checkEmail() {
+      let email = document.getElementById("email").value.trim();
+      let msg = document.getElementById("msg");
+
+      if (email.length === 0) {
+        msg.innerHTML = "Email cannot be empty";
+        msg.style.color = "red";
+        return false;
+      }
+
+      // must contain '@' and '.'
+      if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
+        msg.innerHTML = "Email must contain @ and .";
+        msg.style.color = "red";
+        return false;
+      }
+
+      msg.innerHTML = "Valid email";
+      msg.style.color = "green";
+      return true;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Person Profile - Validations (Basic Methods)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    label { display: inline-block; width: 110px; vertical-align: top; }
+    .row { margin-bottom: 8px; }
+    #msg { margin-top: 12px; }
+    #msg ul { margin: 6px 0 6px 20px; }
+  </style>
+</head>
+<body>
+  <h2>PERSON PROFILE</h2>
+
+  <form id="profileForm" onsubmit="return checkAll()">
+    <div class="row"><label>Name:</label>
+      <input type="text" id="name" /></div>
+
+    <div class="row"><label>Email:</label>
+      <input type="text" id="email" /></div>
+
+    <div class="row"><label>Gender:</label>
+      <input type="radio" name="gender" value="Male" /> Male
+      <input type="radio" name="gender" value="Female" /> Female
+      <input type="radio" name="gender" value="Other" /> Other
+    </div>
+
+    <div class="row"><label>Date of Birth:</label>
+      <input type="text" id="dd" size="2" placeholder="dd" /> /
+      <input type="text" id="mm" size="2" placeholder="mm" /> /
+      <input type="text" id="yy" size="4" placeholder="yyyy" />
+    </div>
+
+    <div class="row"><label>Blood Group:</label>
+      <select id="blood">
+        <option value="">Select</option>
+        <option>A+</option><option>A-</option>
+        <option>B+</option><option>B-</option>
+        <option>AB+</option><option>AB-</option>
+        <option>O+</option><option>O-</option>
+      </select>
+    </div>
+
+    <div class="row"><label>Degree:</label>
+      <input type="checkbox" name="degree" value="SSC" /> SSC
+      <input type="checkbox" name="degree" value="HSC" /> HSC
+      <input type="checkbox" name="degree" value="BSc" /> BSc
+      <input type="checkbox" name="degree" value="MSc" /> MSc
+    </div>
+
+    <div class="row"><label>Photo:</label>
+      <input type="file" id="photo" accept="image/*" />
+    </div>
+
+    <div class="row">
+      <input type="submit" value="Submit" />
+      <input type="reset" value="Reset" onclick="clearMsg()" />
+    </div>
+
+    <div id="msg"></div>
+  </form>
+
+  <script>
+    function clearMsg() {
+      var m = document.getElementById('msg');
+      m.innerHTML = '';
+    }
+
+    function checkAll() {
+      var errors = [];
+      var name = document.getElementById('name').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var genders = document.getElementsByName('gender');
+      var dd = document.getElementById('dd').value.trim();
+      var mm = document.getElementById('mm').value.trim();
+      var yy = document.getElementById('yy').value.trim();
+      var blood = document.getElementById('blood').value;
+      var degrees = document.getElementsByName('degree');
+      var photo = document.getElementById('photo').value;
+
+      // --- Name checks ---
+      if (name.length === 0) {
+        errors.push("Name cannot be empty.");
+      } else {
+        // must contain at least two words (check simple space)
+        if (name.indexOf(" ") === -1) {
+          errors.push("Name must contain at least two words.");
+        }
+        // must start with a letter
+        var first = name.charAt(0);
+        if (!((first >= 'A' && first <= 'Z') || (first >= 'a' && first <= 'z'))) {
+          errors.push("Name must start with a letter.");
+        }
+        // allowed characters: letters, dot, dash, space
+        for (var i = 0; i < name.length; i++) {
+          var ch = name.charAt(i);
+          var okChar = ( (ch >= 'A' && ch <= 'Z') ||
+                         (ch >= 'a' && ch <= 'z') ||
+                         (ch === '.') || (ch === '-') || (ch === ' ') );
+          if (!okChar) {
+            errors.push("Name can only contain letters, dot (.) or dash (-).");
+            break;
+          }
+        }
+      }
+
+      // --- Email checks ---
+      if (email.length === 0) {
+        errors.push("Email cannot be empty.");
+      } else {
+        // simple checks: contains '@' and '.' and '@' is not first or last
+        var atPos = email.indexOf('@');
+        var dotPos = email.lastIndexOf('.');
+        if (atPos <= 0 || dotPos <= atPos + 1 || dotPos === email.length - 1) {
+          errors.push("Email must be a valid format (e.g., name@example.com).");
+        }
+      }
+
+      // --- Gender ---
+      var genderSelected = false;
+      for (var i = 0; i < genders.length; i++) {
+        if (genders[i].checked) { genderSelected = true; break; }
+      }
+      if (!genderSelected) {
+        errors.push("Select at least one gender.");
+      }
+
+      // --- Date of Birth ---
+      if (dd.length === 0 || mm.length === 0 || yy.length === 0) {
+        errors.push("Date of birth fields (dd/mm/yyyy) cannot be empty.");
+      } else {
+        var d = Number(dd);
+        var m = Number(mm);
+        var y = Number(yy);
+        // check integer and ranges using Number.isInteger
+        if (!Number.isInteger(d) || !Number.isInteger(m) || !Number.isInteger(y)) {
+          errors.push("Date of birth should be numeric (dd, mm, yyyy).");
+        } else {
+          if (d < 1 || d > 31) errors.push("Day (dd) must be between 1 and 31.");
+          if (m < 1 || m > 12) errors.push("Month (mm) must be between 1 and 12.");
+          if (y < 1900 || y > 2016) errors.push("Year (yyyy) must be between 1900 and 2016.");
+        }
+      }
+
+      // --- Blood group ---
+      if (blood === "") {
+        errors.push("Select a blood group.");
+      }
+
+      // --- Degree ---
+      var degreeOk = false;
+      for (var j = 0; j < degrees.length; j++) {
+        if (degrees[j].checked) { degreeOk = true; break; }
+      }
+      if (!degreeOk) errors.push("Select at least one degree.");
+
+      // --- Photo ---
+      if (photo.length === 0) {
+        errors.push("Photo cannot be empty.");
+      } else {
+        // optional: check extension quickly (basic methods)
+        var lower = photo.toLowerCase();
+        if (!( lower.indexOf('.jpg') !== -1 || lower.indexOf('.jpeg') !== -1 || lower.indexOf('.png') !== -1 || lower.indexOf('.gif') !== -1 )) {
+          // note: some browsers give fake path; this is a soft check
+          errors.push("Photo should be an image file (jpg/jpeg/png/gif).");
+        }
+      }
+
+      // display errors or success
+      var msg = document.getElementById('msg');
+      if (errors.length > 0) {
+        var html = "<div style='color: red;'><strong>Please fix the following:</strong><ul>";
+        for (var k = 0; k < errors.length; k++) {
+          html += "<li>" + errors[k] + "</li>";
+        }
+        html += "</ul></div>";
+        msg.innerHTML = html;
+        return false; // prevent submit
+      } else {
+        msg.innerHTML = "<div style='color: green;'><strong>Form Submitted Successfully!</strong></div>";
+        return true; // allow submit
+      }
+    }
+  </script>
+</body>
+</html>

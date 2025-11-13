@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+  <title>Degree Validation</title>
+</head>
+<body>
+  <h2>Degree Validation</h2>
+  <form onsubmit="return checkDegree()">
+    <input type="checkbox" name="degree" value="SSC"> SSC
+    <input type="checkbox" name="degree" value="HSC"> HSC
+    <input type="checkbox" name="degree" value="BSc"> BSc
+    <input type="checkbox" name="degree" value="MSc"> MSc
+    <br><br>
+    <input type="submit" value="Submit">
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    function checkDegree() {
+      let deg = document.getElementsByName("degree");
+      let msg = document.getElementById("msg");
+      let ok = false;
+
+      for (let i = 0; i < deg.length; i++) {
+        if (deg[i].checked) ok = true;
+      }
+
+      if (!ok) {
+        msg.innerHTML = "Select at least one degree";
+        msg.style.color = "red";
+        return false;
+      }
+
+      msg.innerHTML = "Valid";
+      msg.style.color = "green";
+      return true;
+    }
+  </script>
+</body>
+</html>

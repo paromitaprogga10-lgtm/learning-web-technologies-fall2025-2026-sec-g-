@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+  <title>Profile Picture Validation</title>
+</head>
+<body>
+  <h2>Profile Picture</h2>
+  <form onsubmit="return checkProfile()">
+    User ID: <input type="number" id="uid"><br><br>
+    Picture: <input type="file" id="pic"><br><br>
+    <input type="submit" value="Submit">
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    function checkProfile() {
+      let id = Number(document.getElementById("uid").value);
+      let pic = document.getElementById("pic").value;
+      let msg = document.getElementById("msg");
+
+      if (!Number.isInteger(id) || id <= 0) {
+        msg.innerHTML = "User ID must be positive";
+        msg.style.color = "red";
+        return false;
+      }
+
+      if (pic.length === 0) {
+        msg.innerHTML = "Picture cannot be empty";
+        msg.style.color = "red";
+        return false;
+      }
+
+      msg.innerHTML = "Valid";
+      msg.style.color = "green";
+      return true;
+    }
+  </script>
+</body>
+</html>

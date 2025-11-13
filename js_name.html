@@ -1,0 +1,50 @@
+<html lang="en">
+<head>
+  <title>Name Validation</title>
+</head>
+<body>
+  <h2>Name Validation</h2>
+  <form onsubmit="return checkName()">
+    Name: <input type="text" id="name"><br><br>
+    <input type="submit" value="Submit">
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    function checkName() {
+      let name = document.getElementById("name").value.trim();
+      let msg = document.getElementById("msg");
+
+      if (name.length === 0) {
+        msg.innerHTML = "Name cannot be empty";
+        msg.style.color = "red";
+        return false;
+      }
+
+      // count spaces (to check if has at least two words)
+      let spaceCount = 0;
+      for (let i = 0; i < name.length; i++) {
+        if (name.charAt(i) === " ") spaceCount++;
+      }
+
+      if (spaceCount < 1) {
+        msg.innerHTML = "Name must contain at least two words";
+        msg.style.color = "red";
+        return false;
+      }
+
+      // must start with a letter
+      let first = name.charAt(0);
+      if (!((first >= "A" && first <= "Z") || (first >= "a" && first <= "z"))) {
+        msg.innerHTML = "Name must start with a letter";
+        msg.style.color = "red";
+        return false;
+      }
+
+      msg.innerHTML = "Valid name";
+      msg.style.color = "green";
+      return true;
+    }
+  </script>
+</body>
+</html>

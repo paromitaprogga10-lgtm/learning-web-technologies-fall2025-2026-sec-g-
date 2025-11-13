@@ -1,0 +1,40 @@
+<html lang="en">
+<head>
+  <title>Date of Birth Validation</title>
+</head>
+<body>
+  <h2>Date of Birth</h2>
+  <form onsubmit="return checkDOB()">
+    <input type="text" id="dd" size="2" placeholder="dd"> /
+    <input type="text" id="mm" size="2" placeholder="mm"> /
+    <input type="text" id="yy" size="4" placeholder="yyyy"><br><br>
+    <input type="submit" value="Submit">
+    <p id="msg"></p>
+  </form>
+
+  <script>
+    function checkDOB() {
+      let d = Number(document.getElementById("dd").value);
+      let m = Number(document.getElementById("mm").value);
+      let y = Number(document.getElementById("yy").value);
+      let msg = document.getElementById("msg");
+
+      if (!Number.isInteger(d) || !Number.isInteger(m) || !Number.isInteger(y)) {
+        msg.innerHTML = "All fields required";
+        msg.style.color = "red";
+        return false;
+      }
+
+      if (d < 1 || d > 31 || m < 1 || m > 12 || y < 1900 || y > 2016) {
+        msg.innerHTML = "Invalid date";
+        msg.style.color = "red";
+        return false;
+      }
+
+      msg.innerHTML = "Valid date of birth";
+      msg.style.color = "green";
+      return true;
+    }
+  </script>
+</body>
+</html>
