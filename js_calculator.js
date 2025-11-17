@@ -11,3 +11,15 @@ function calculate() {
     display.innerText = 'Error';
   }
 }
+function clearAll() {
+  display.innerText = '0';
+}
+
+function removeLast() {
+  let text = display.innerText;
+  if (text.length > 1) {
+    display.innerText = text.slice(0, -1);
+  } else {
+    display.innerText = '0';
+  }
+}
